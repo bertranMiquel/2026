@@ -61,8 +61,7 @@ _styles: >
 # **Introduction**
 
 Graph Neural Networks (GNNs) have achieved strong performance on canonical node classification benchmarks.  However, a widely accepted narrative is that GNNs struggle in **heterophilic graphs**, where neighboring nodes do not share labels. 
-This has motivated a growing body of work studying how to improve GNNs in heterophilic settings, with a focus on architectural modifications and new aggregation schemes.
-<d-cite key="kipf2016semi"></d-cite> , <d-cite key="velivckovic2017graph"></d-cite> , <d-cite key="rossi2024edge"></d-cite>
+This has motivated a growing body of work studying how to improve GNNs in heterophilic settings, with a focus on architectural modifications and new aggregation schemes. <d-cite key="kipf2016semi", key="velivckovic2017graph", key="rossi2024edge"></d-cite>
 
 Yet, an often-overlooked aspect of these benchmarks is **graph directionality**.
 
