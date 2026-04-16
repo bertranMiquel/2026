@@ -153,11 +153,13 @@ After applying these transformations, we evaluate standard GNN architectures (GC
 We evaluate the performance of GNNs of the datasets in their original form, as well as after applying the bidirectionalization and directed graph construction transformations. This allows us to isolate the effects of directionality from those of homophily.
 As in <d-cite key="rossi2024edge"></d-cite>, we use the same hyperparameters for all models to ensure a fair comparison, taking the datasets and their standard splits.
 
-![**Figure 1.** Performance of GNNs on heterophilic datasets in their original directed form. Standard GNNs (GCN, GAT, SAGE) perform poorly, while directed GNNs (DirGCN, DirGAT, DirSAGE) show significant improvements.](assets/img/2026-04-15-graph_directionality_matters/heterophilic_baseline_gnn_directed.pdf)
-<!-- {% include figure.liquid path="assets/img/2026-04-15-graph_directionality_matters/heterophilic_baseline_gnn_directed.pdf" %} -->
-<!-- <div class="caption">
-Figure 1. Performance of GNNs on heterophilic datasets in their original directed form. Standard GNNs (GCN, GAT, SAGE) perform poorly, while directed GNNs (DirGCN, DirGAT, DirSAGE) show significant improvements.
-</div> -->
+<p align="center">
+  <img src="assets/img/2026-04-15-graph_directionality_matters/heterophilic_baseline_gnn_directed.pdf" width="500"/>
+</p>
+
+<p align="center">
+  <b>Figure 1.</b> Performance of GNNs on heterophilic datasets in their original directed form. Standard GNNs (GCN, GAT, SAGE) perform poorly, while directed GNNs (DirGCN, DirGAT, DirSAGE) show significant improvements.
+</p>
 
 ![**Figure 2.** Performance of GNNs on homophilic datasets in their original directed form. Standard GNNs (GCN, GAT, SAGE) perform poorly, while directed GNNs (DirGCN, DirGAT, DirSAGE) show significant improvements.](assets/img/2026-04-15-graph_directionality_matters/homophilic_baseline_gnn_directed.pdf)
 <!-- {% include figure.liquid path="assets/img/2026-04-15-graph_directionality_matters/homophilic_baseline_gnn_directed.pdf" %} -->
