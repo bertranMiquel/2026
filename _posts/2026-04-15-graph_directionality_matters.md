@@ -60,7 +60,6 @@ _styles: >
 
 # **Introduction**
 
-<!-- difference between homophilic and heterophilic datasets -->
 Graph Neural Networks (GNNs) have achieved strong performance on canonical node classification benchmarks.  However, a widely accepted narrative is that GNNs struggle in **heterophilic graphs**, where neighboring nodes do not share labels, while obtaining strong results in **homophilic graphs**, where neighbors tend to share labels. 
 This has motivated a growing body of work studying how to improve GNNs in heterophilic settings, with a focus on architectural modifications and new aggregation schemes. <d-cite key="kipf2016semi"></d-cite>, <d-cite key="velivckovic2017graph"></d-cite>, <d-cite key="rossi2024edge"></d-cite>
 
@@ -69,16 +68,40 @@ The mainly difference between homophilic and heterophilic datasets, by definitio
 Historically, many of the most widely used homophilic datasets such as Cora, CiteSeer, and PubMed, were originally constructed as **undirected graphs**. In early work (e.g., <d-cite key="kipf2016semi"></d-cite>), citation edges were explicitly **symmetrized** to produce a **symmetric adjacency matrix**, enabling the use of spectral graph convolutions. This was done to simplify the problem and ensure compatibility with the proposed GCN architecture, which relies on symmetric normalization of the adjacency matrix.
 As a consequence, modern libraries (e.g., PyTorch Geometric) store these graphs as **bidirectional edge lists**, even when the underlying relation (citation) is inherently directed.
 
-Despite new models being designed to handle non-symmetric adjacency matrices, numerous benchmarks continue to use **bidirectional versions of homophilic datasets**. This design choice has persisted for several reasons:
+Despite new models being designed to handle non-symmetric adjacency matrices, numerous benchmarks continue to use **bidirectional versions of homophilic datasets**. As we can observe in Table 1, almost all homophilic datasets are fully bidirectional or undirected, except for OGBN-Arxiv, which has a very low bidirectionality ratio (1.4%).
+This design choice has persisted for several reasons:
 
 * Some datasets are naturally undirected (e.g., co-authorship, co-purchase) <d-cite key="shchur2018pitfalls"></d-cite>
 * Others are **artificially symmetrized** despite having an underlying directed structure (e.g., citation graphs)
 * Even recent works, such as <d-cite key="liang2025towards"></d-cite>, deliberately enforce **bidirectionality** to isolate other factors (e.g., long-range dependencies) while controlling for directionality.
 
-Meanwhile, many heterophilic datasets (e.g., Cornell, Texas, Wisconsin, Chameleon, Squirrel) are often used in their **original directed form**, without symmetrization. This is partly because their relations (e.g., web links, social interactions) are inherently directed. <d-cite key="pei2020geom-gcn"></d-cite>
+Meanwhile, many heterophilic datasets (e.g., Cornell, Texas, Wisconsin, Chameleon, Squirrel) are often used in their **original directed form**, without symmetrization. This is partly because their relations (e.g., web links, social interactions) are inherently directed. <d-cite key="pei2020geom-gcn"></d-cite> Indeed, we can see that the bidirectionality ratio for these datasets is significantly lower than for homophilic datasets, indicating a much higher degree of directionality.
 Several datasets reported bad performance in different architectures, relating it to the heterophilic nature of the graph, analysing different graph features, but without controlling for the directionality of the graph. <d-cite key="zhu2020beyond"></d-cite>, <d-cite key="ma2021homophily"></d-cite>
 
 In <d-cite key="rossi2024edge"></d-cite>, they report that the performance of GNNs on heterophilic datasets is significantly worse than on homophilic datasets. However, they observe how directed GNNs (DirGNNs) can significantly improve performance on heterophilic datasets, but still underperform compared to their performance on homophilic datasets. This suggests that while directionality is a factor, it may not be the only one contributing to the performance gap. 
+
+
+<div class="table-caption">
+  Table 1. Bidirectional properties of the used graph datasets, specified by type (homophilic vs heterophilic), bidirectionality or undirected (True/False), and the bidirectionality ratio (the proportion of edges that have a corresponding reverse edge).
+</div>
+| dataset                 | homophilic/heterophilic   | bidirectionality   |   bidirectionality_ratio |
+|:------------------------|:--------------------------|:-------------------|-------------------------:|
+| amazon-computers        | homophilic                | True               |                1         |
+| amazon-photo            | homophilic                | True               |                1         |
+| citeseer_full           | homophilic                | True               |                1         |
+| coauthor-cs             | homophilic                | True               |                1         |
+| coauthor-phy            | homophilic                | True               |                1         |
+| cora_ml                 | homophilic                | True               |                1         |
+| ogbn-arxiv              | homophilic                | False              |                0.0144807 |
+| pubmed                  | homophilic                | True               |                1         |
+| chameleon               | heterophilic              | False              |                0.259632  |
+| cornell                 | heterophilic              | False              |                0.122034  |
+| directed-roman-empire   | heterophilic              | False              |                0.317962  |
+| directed_amazon_ratings | heterophilic              | False              |                0.35711   |
+| squirrel                | heterophilic              | False              |                0.171297  |
+| texas                   | heterophilic              | False              |                0.194175  |
+| wisconsin               | heterophilic              | False              |                0.196393  |
+
 
 This raises a fundamental question:
 
@@ -106,7 +129,7 @@ Once the transformations are applied, we evaluate the performance of standard GN
 
 ## Empirical evidence: directionality dominates
 
-We evaluate standard GNNs (GCN, GAT, GraphSAGE) and their directed variants across 5 seeds.
+We evaluate standard GNNs (GCN, GAT, GraphSAGE) and their directed variants across 5 different seeds. We take the datasets, used their standard splits, and always use the same hyperparameters for all the models, to ensure a fair comparison, as done in <d-cite key="rossi2024edge"></d-cite>.
 
 ### Heterophilic graphs: bidirectionality boosts performance
 
@@ -219,22 +242,3 @@ Instead, we provide empirical evidence that:
 The widespread use of bidirectional graphs in benchmarks introduces a structural bias that favors existing GNN architectures.
 
 By explicitly controlling for directionality, we show that many limitations attributed to heterophily may instead arise from the inability of GNNs to handle **directed graphs**.
-
-
----
-
-# What is still missing (for paper)
-
-Next steps for the position paper:
-
-1. **Figure 1 (critical)**
-
-   * Bar plot: baseline vs bidirected (heterophilic)
-2. **Figure 2**
-
-   * Directed vs undirected (homophilic)
-3. **Table 1**
-
-   * Full results (mean ± std)
-4. **Short related work section**
-5. **1-paragraph method section (your transformations)**
